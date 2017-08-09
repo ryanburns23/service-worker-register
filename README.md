@@ -4,22 +4,22 @@ A [class expression mixin](https://www.polymer-project.org/2.0/docs/devguide/cus
 
 ## Usage 
 
-Install `ServiceWorkerRegister`
+### Install `ServiceWorkerRegister`
 `bower i ryanburns23/service-worker-register -S`
 
-Import the `ServiceWorkerRegister` class expression mixin
+### Import the `ServiceWorkerRegister` class expression mixin
 ```html
 <link rel="import" href="../bower_components/service-worker-register/service-worker-register.html">
 ```
 
-Add ServiceWorkerRegister to your element like this:
+### Add ServiceWorkerRegister to your element like this:
 ```javascript
 class MyElement extends ServiceWorkerRegister(Polymer.Element) {
   static get is() { return 'my-element' }
 }
 ```
 
-This creates a new class defined by the `ServiceWorkerRegister` factory, so the inheritance hierarchy is:
+### This creates a new class defined by the `ServiceWorkerRegister` factory, so the inheritance hierarchy is:
 ```javascript
 MyElement <= ServiceWorkerRegister(Polymer.Element) <= Polymer.Element
 ```
