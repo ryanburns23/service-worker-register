@@ -1,0 +1,88 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-toast/paper-toast.html">
+
+<dom-module id="service-worker-notify">
+  <template>
+    <style>
+      #toast {
+        font-size: 16px;
+        color:  var(--text-color);
+        background: var(--app-primary-color);
+      }
+      #toast a {
+        font-weight: 600;
+        margin-left: 16px;
+        color: var(--accent-color);
+      }
+      #toastIcon{
+        display: none;
+      }
+      #toast[error]{
+        background: red;
+        color: white;
+        font-weight: bold;
+      }
+    </style>
+
+    <paper-toast id="toast">
+      <a id="toastAction" on-click="_handleToast" href="#"></a>
+    </paper-toast>
+    
+  </template>
+  <script>
+    class ServiceWorkerNotify extends Polymer.Element {
+      static get is() {
+        return 'service-worker-notify';
+      }
+      
+      ready(){
+        super.ready();
+        Polymer.RenderStatus.afterNextRender(this, function(){
+          window.addEventListener('service-worker-update-available', e => this._handleServiceWorkerUpdate(e));
+          window.addEventListener('service-worker-content-cached', e => this._handleServiceWorkerInstall(e));
+        })
+      }
+
+      _handleServiceWorkerUpdate(){
+        this._notifyUser(
+          {
+            message: 'New version available',
+            buttonText: 'Reload to update',
+            buttonTapHandler: function() {
+              window.location.reload();
+            },
+            duration: 0,
+          }
+        );
+      }
+      _handleServiceWorkerInstall(){
+        this._notifyUser(
+          {
+            message: 'Content is cached for offline use',
+            duration: 4000,
+          }
+        );
+      }
+
+      _notifyUser(options) {
+        this.$.toast.text = options.message;
+        if (options.hasOwnProperty('buttonText')) {
+          this.$.toastAction.removeAttribute('hidden');
+          this.$.toastAction.textContent = options.buttonText;
+        } else {
+          this.$.toastAction.setAttribute('hidden', '');
+        }
+        if (options.type == "error") {
+          this.$.toast.setAttribute('error', '');
+        }else {
+          this.$.toast.removeAttribute('error');
+        }
+        this.$.toast.duration = options.duration == null ? 5000 : options.duration;
+        this.$.toast.removeAttribute('opened'); // In case it was previously set
+        this.$.toast.setAttribute('opened', '');
+        this._currentToast = options;
+      }
+    }
+    window.customElements.define(ServiceWorkerNotify.is, ServiceWorkerNotify);
+  </script>
+</dom-module>

@@ -3,7 +3,8 @@
   "description": "Register and manage service worker",
   "main": "service-worker-register.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^2.0.0"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "paper-toast": "PolymerElements/paper-toast#^2.0.0"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
