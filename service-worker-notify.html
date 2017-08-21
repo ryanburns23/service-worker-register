@@ -82,6 +82,11 @@
         this.$.toast.setAttribute('opened', '');
         this._currentToast = options;
       }
+      _handleToast() {
+        if (!this._currentToast || !this._currentToast.buttonTapHandler)
+          return;
+        this._currentToast.buttonTapHandler();
+      }
     }
     window.customElements.define(ServiceWorkerNotify.is, ServiceWorkerNotify);
   </script>
